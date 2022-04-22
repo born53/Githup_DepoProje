@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class UrunListesi {
+
   public  static Scanner scan = new Scanner(System.in);
   public static Integer urunId=1000;
   private int urunMiktari;
@@ -68,5 +69,10 @@ public class UrunListesi {
                 ", ureticiAdi='" + ureticiAdi + '\'' +
                 ", urunBirim='" + urunBirim + '\'' +
                 '}';
+
+    public static void main(String[] args) {
+        System.out.println("Ahmet beye selamlar");
+        System.out.println("Ahmet beye uygulamalari power pointten takip ediniz");
+
     }
 }
