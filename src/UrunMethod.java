@@ -5,8 +5,8 @@ public class UrunMethod extends UrunListesi {
 
     public static void girisEkrani() {
 
-        System.out.println("Yapmak istediginiz islemi seciniz:\n 1- Urun Tanimlama\n2- Urun Listeleme\n3- Urun Girisi\n4- Urunu Rafa Koy" +
-                "\n5- Urun Cikisi ");
+        System.out.println("Yapmak istediginiz islemi seciniz:\n1- Urun Tanimlama\n2- Urun Listeleme\n3- Urun Girisi\n4- Urunu Rafa Koy" +
+                "\n5- Urun Cikisi\n6- Programdan cikis ");
         String secim = scan.next();
         switch (secim) {
             case "1":
@@ -24,6 +24,9 @@ public class UrunMethod extends UrunListesi {
                 break;
             case "5":
                 urunCikisi();
+                break;
+            case "6":
+                cikis();
                 break;
             default:
                 System.out.println("Hatali giris yaptiniz. lutfen tekrar deneyiniz.");
@@ -98,7 +101,7 @@ public class UrunMethod extends UrunListesi {
                 String arrayMDList = "";
                 for (String each : yeniMDarr[i]
                 ) {
-                    arrayMDList += each+" - " ;
+                    arrayMDList += each + " - ";
                     urunListesi.put(keyList.get(i), arrayMDList);
                 }
             }
@@ -123,11 +126,11 @@ public class UrunMethod extends UrunListesi {
 
         for (int i = 0; i < yeniMDarr.length; i++) {
             if (keyList.get(i) == urunId) {
-                yeniMDarr[i][4] = "raf "+(keyList.get(i)%10+1);
+                yeniMDarr[i][4] = "raf " + (keyList.get(i) % 10 + 1);
                 String arrayMDList = "";
                 for (String each : yeniMDarr[i]
                 ) {
-                    arrayMDList += each+" - " ;
+                    arrayMDList += each + " - ";
                     urunListesi.put(keyList.get(i), arrayMDList);
                 }
             }
@@ -142,7 +145,31 @@ public class UrunMethod extends UrunListesi {
     }
 
     public static void urunCikisi() {
+        System.out.println("cikis yapmak istediginiz urunun id'sini giriniz:");
+        int urunId = scan.nextInt();
+        System.out.println("miktar giriniz");
+        Integer miktar = scan.nextInt();
+        Set<Integer> urunListesiKeyseti = urunListesi.keySet();
+        List<Integer> keyList = new ArrayList<>();
+        keyList.addAll(urunListesiKeyseti);
+        String yeniMDarr[][] = mapValueArrayDonustur(urunListesi);
 
+        for (int i = 0; i < yeniMDarr.length; i++) {
+            if (keyList.get(i) == urunId) {
+                yeniMDarr[i][3] = Integer.valueOf(yeniMDarr[i][3]) - miktar + "";
+                String arrayMDList = "";
+                for (String each : yeniMDarr[i]
+                ) {
+                    arrayMDList += each + " - ";
+                    urunListesi.put(keyList.get(i), arrayMDList);
+                }
+            }
+
+        }
+
+
+        urunListele();
+        girisEkrani();
     }
 
     public static String[][] mapValueArrayDonustur(Map<Integer, String> urunListesi) {
@@ -165,6 +192,10 @@ public class UrunMethod extends UrunListesi {
             }
         }
         return arrayMDList;
+    }
+
+    public static void cikis() {
+        System.out.println("Depo programimizi kulladiginiz icin tesekkurler. Iyi gunler");
     }
 
 }
