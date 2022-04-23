@@ -9,6 +9,10 @@ public class UrunMethod extends UrunListesi {
                 "\n5- Urun Cikisi\n6- Programdan cikis ");
         String secim = scan.next();
         switch (secim) {
+            default:
+                System.out.println("Hatali giris yaptiniz. lutfen tekrar deneyiniz.");
+                girisEkrani();
+                break;
             case "1":
                 scan.nextLine();
                 urunTanimlama();
@@ -28,10 +32,7 @@ public class UrunMethod extends UrunListesi {
             case "6":
                 cikis();
                 break;
-            default:
-                System.out.println("Hatali giris yaptiniz. lutfen tekrar deneyiniz.");
-                girisEkrani();
-                break;
+
         }
     }
 
@@ -45,11 +46,11 @@ public class UrunMethod extends UrunListesi {
         String urunBirim = scan.next();
         UrunListesi urun = new UrunListesi(urunAdi, ureticiAdi, urunBirim, urunId);
 
-        urunListesi.put(urunId, urun.getUrunAdi() + " - " + urun.getUreticiAdi() +
+        urunListesi.put(urunId++, urun.getUrunAdi() + " - " + urun.getUreticiAdi() +
                 " - " + urun.getUrunBirim() + " - " + urun.getUrunMiktari() + " - " + urun.getRafNumarasi());
 
 
-        urunId++;
+        // urunId++;
 
 
         urunListele();
@@ -64,11 +65,18 @@ public class UrunMethod extends UrunListesi {
         List<Integer> keyList = new ArrayList<>();
         keyList.addAll(urunListesiKeyseti);
 
+
         List<String> valueList = new ArrayList<>();
         valueList.addAll(urunListesi.values());
 
 
-        String arrayMDList[][] = new String[valueList.size()][valueList.get(0).split(" - ").length];
+        String arrayMDList[][] = new String[0][];
+        try {
+            arrayMDList = new String[valueList.size()][valueList.get(0).split(" - ").length];
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Depo suanda bos.Lutfen once urun tanimlayin");
+            girisEkrani();
+        }
         System.out.println(" id       ismi      ureticisi    birimi    miktari      raf");
         System.out.println("---------------------------------------------------------------");
         for (int i = 0; i < arrayMDList.length; i++) {
@@ -87,17 +95,43 @@ public class UrunMethod extends UrunListesi {
 
     public static void urunGirisi() {
         System.out.println("giris yapmak istediginiz urunun id'sini giriniz:");
-        int urunId = scan.nextInt();
-        System.out.println("miktar giriniz");
-        Integer miktar = scan.nextInt();
+        int urunId = 0;
+        try {
+            urunId = scan.nextInt();
+            //1001
+            if (urunId < 1000 || urunId > 9999) {
+                System.out.println("Urun id 1000-9999 arasinda olmalidir");
+                urunGirisi();
+            }
+        } catch (Exception e) {
+            String hataliGiris = scan.nextLine();
+            System.out.println("Urun id'yi hatali girdiniz. tekrar deneyiniz");
+            urunGirisi();
+        }
+        int miktar = 0;
+        while (true) {
+            System.out.println("miktar giriniz");
+
+            try {
+                miktar = scan.nextInt();
+                break;
+            } catch (Exception e) {
+                String hataliGiris = scan.nextLine();
+                System.out.println("Hatali giris yaptiniz. Miktar rakamlardan olusmali");
+
+            }
+        }
+
         Set<Integer> urunListesiKeyseti = urunListesi.keySet();
         List<Integer> keyList = new ArrayList<>();
         keyList.addAll(urunListesiKeyseti);
+
         String yeniMDarr[][] = mapValueArrayDonustur(urunListesi);
 
         for (int i = 0; i < yeniMDarr.length; i++) {
             if (keyList.get(i) == urunId) {
-                yeniMDarr[i][3] = miktar.toString();
+
+                yeniMDarr[i][3] = Integer.valueOf(yeniMDarr[i][3]) + miktar + "";
                 String arrayMDList = "";
                 for (String each : yeniMDarr[i]
                 ) {
@@ -105,7 +139,6 @@ public class UrunMethod extends UrunListesi {
                     urunListesi.put(keyList.get(i), arrayMDList);
                 }
             }
-
         }
 
 
@@ -173,8 +206,7 @@ public class UrunMethod extends UrunListesi {
     }
 
     public static String[][] mapValueArrayDonustur(Map<Integer, String> urunListesi) {
-        urunListesi.keySet();
-        urunListesi.values();
+
 
         Set<Integer> urunListesiKeyseti = urunListesi.keySet();
         List<Integer> keyList = new ArrayList<>();
@@ -183,7 +215,13 @@ public class UrunMethod extends UrunListesi {
         List<String> valueList = new ArrayList<>();
         valueList.addAll(urunListesi.values());
 
-        String arrayMDList[][] = new String[valueList.size()][valueList.get(0).split(" - ").length];
+        String arrayMDList[][] = new String[0][];
+        try {
+            arrayMDList = new String[valueList.size()][valueList.get(0).split(" - ").length];
+        } catch (Exception e) {
+            System.out.println("Depo suanda bos.Lutfen once urun tanimlayin");
+            girisEkrani();
+        }
         for (int i = 0; i < arrayMDList.length; i++) {
             String tempArr[] = valueList.get(i).split(" - ");
 
