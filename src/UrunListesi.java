@@ -4,7 +4,7 @@ public class UrunListesi {
   public  static Scanner scan = new Scanner(System.in);
   public static Integer urunId=1000;
   private int urunMiktari;
-  private int rafNumarasi;
+  private String rafNumarasi;
  private  String urunAdi;
  private  String ureticiAdi;
  private  String urunBirim;
@@ -17,11 +17,11 @@ public class UrunListesi {
         this.urunMiktari = urunMiktari;
     }
 
-    public int getRafNumarasi() {
+    public String getRafNumarasi() {
         return rafNumarasi;
     }
 
-    public void setRafNumarasi(int rafNumarasi) {
+    public void setRafNumarasi(String rafNumarasi) {
         this.rafNumarasi = rafNumarasi;
     }
 
@@ -60,13 +60,6 @@ public class UrunListesi {
         this.urunBirim = urunBirim;
     }
 
-    @Override
-    public String toString() {
-        return "UrunListesi{" +
-                "urunId= "+urunId+
-                ",urunAdi='" + urunAdi + '\'' +
-                ", ureticiAdi='" + ureticiAdi + '\'' +
-                ", urunBirim='" + urunBirim + '\'' +
-                '}';
+
     }
-}
+
