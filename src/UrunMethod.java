@@ -32,10 +32,9 @@ public class UrunMethod extends UrunListesi {
                 urunCikisi();
                 break;
             case "6":
+                System.out.println("Depo programimizi kulladiginiz icin tesekkurler. Iyi gunler");
+                break;
 
-                cikis();
-
-               break;
 
         }
     }
