@@ -7,7 +7,9 @@ public class UrunMethod extends UrunListesi {
 
         System.out.println("Yapmak istediginiz islemi seciniz:\n1- Urun Tanimlama\n2- Urun Listeleme\n3- Urun Girisi\n4- Urunu Rafa Koy" +
                 "\n5- Urun Cikisi\n6- Programdan cikis ");
-        String secim = scan.next();
+
+       String secim = scan.next();
+
         switch (secim) {
             default:
                 System.out.println("Hatali giris yaptiniz. lutfen tekrar deneyiniz.");
@@ -30,8 +32,10 @@ public class UrunMethod extends UrunListesi {
                 urunCikisi();
                 break;
             case "6":
+
                 cikis();
-                break;
+
+               break;
 
         }
     }
@@ -50,7 +54,7 @@ public class UrunMethod extends UrunListesi {
                 " - " + urun.getUrunBirim() + " - " + urun.getUrunMiktari() + " - " + urun.getRafNumarasi());
 
 
-        // urunId++;
+
 
 
         urunListele();
@@ -77,7 +81,7 @@ public class UrunMethod extends UrunListesi {
             System.out.println("Depo suanda bos.Lutfen once urun tanimlayin");
             girisEkrani();
         }
-        System.out.println(" id       ismi      ureticisi    birimi    miktari      raf");
+        System.out.println(" id     ismi        ureticisi    birimi    miktari      raf");
         System.out.println("---------------------------------------------------------------");
         for (int i = 0; i < arrayMDList.length; i++) {
             String tempArr[] = valueList.get(i).split(" - ");
@@ -98,7 +102,7 @@ public class UrunMethod extends UrunListesi {
         int urunId = 0;
         try {
             urunId = scan.nextInt();
-            //1001
+
             if (urunId < 1000 || urunId > 9999) {
                 System.out.println("Urun id 1000-9999 arasinda olmalidir");
                 urunGirisi();
@@ -179,9 +183,33 @@ public class UrunMethod extends UrunListesi {
 
     public static void urunCikisi() {
         System.out.println("cikis yapmak istediginiz urunun id'sini giriniz:");
-        int urunId = scan.nextInt();
-        System.out.println("miktar giriniz");
-        Integer miktar = scan.nextInt();
+        int urunId = 0;
+        try {
+            urunId = scan.nextInt();
+
+            if (urunId < 1000 || urunId > 9999) {
+                System.out.println("Urun id 1000-9999 arasinda olmalidir");
+                urunGirisi();
+            }
+        } catch (Exception e) {
+            String hataliGiris = scan.nextLine();
+            System.out.println("Urun id'yi hatali girdiniz. tekrar deneyiniz");
+            urunGirisi();
+        }
+        int miktar = 0;
+        while (true) {
+            System.out.println("miktar giriniz");
+
+            try {
+                miktar = scan.nextInt();
+                break;
+            } catch (Exception e) {
+                String hataliGiris = scan.nextLine();
+                System.out.println("Hatali giris yaptiniz. Miktar rakamlardan olusmali");
+
+            }
+        }
+
         Set<Integer> urunListesiKeyseti = urunListesi.keySet();
         List<Integer> keyList = new ArrayList<>();
         keyList.addAll(urunListesiKeyseti);
@@ -189,12 +217,31 @@ public class UrunMethod extends UrunListesi {
 
         for (int i = 0; i < yeniMDarr.length; i++) {
             if (keyList.get(i) == urunId) {
-                yeniMDarr[i][3] = Integer.valueOf(yeniMDarr[i][3]) - miktar + "";
-                String arrayMDList = "";
-                for (String each : yeniMDarr[i]
-                ) {
-                    arrayMDList += each + " - ";
-                    urunListesi.put(keyList.get(i), arrayMDList);
+                if (Integer.valueOf(yeniMDarr[i][3])-miktar>0){
+                    yeniMDarr[i][3] = Integer.valueOf(yeniMDarr[i][3]) - miktar + "";
+                    String arrayMDList = "";
+                    for (String each : yeniMDarr[i]
+                    ) {
+                        arrayMDList += each + " - ";
+                        urunListesi.put(keyList.get(i), arrayMDList);
+                    }
+                }else if(Integer.valueOf(yeniMDarr[i][3])-miktar<0){
+                    System.out.println("Depoda sadece "+yeniMDarr[i][3]+" adet urun oldugundan  "+(miktar-(miktar-Integer.valueOf(yeniMDarr[i][3])))+" adet cikis yapildi.");
+                   Integer kalanStok=(miktar-Integer.valueOf(yeniMDarr[i][3]));
+                    yeniMDarr[i][3] =0+ "";
+                    String arrayMDList = "";
+                    for (String each : yeniMDarr[i]
+                    ) {
+                        arrayMDList += each + " - ";
+                        urunListesi.put(keyList.get(i), arrayMDList);
+                    }
+
+                    urunListele();
+                   girisEkrani();
+                }else {
+                    System.out.println("Depo bu urunden stok bulunmamaktadir. Once urun girisi yapiniz");
+                    urunListele();
+                    girisEkrani();
                 }
             }
 
@@ -234,6 +281,7 @@ public class UrunMethod extends UrunListesi {
 
     public static void cikis() {
         System.out.println("Depo programimizi kulladiginiz icin tesekkurler. Iyi gunler");
+
     }
 
 }
